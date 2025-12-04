@@ -40,7 +40,7 @@ with col1:
         unsafe_allow_html=True
     )
 with col2:
-    st.image("logo_agrobol.png", width=95)
+    st.image("logo_agrobol.png", width=200)
 
 st.markdown("---")
 
