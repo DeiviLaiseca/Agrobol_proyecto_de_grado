@@ -5,7 +5,7 @@ Esta aplicación permite cargar datos manualmente o mediante archivo CSV para pr
 
 ## Funcionalidades:
 - Predicción del OEE.
-- Opción de carga manual o por archivo.
+- Opción de carga manual.
 - Validación automática de columnas requeridas.
 - Visualización clara y limpia con paleta de colores Agrobol.
 
@@ -14,4 +14,5 @@ Esta aplicación permite cargar datos manualmente o mediante archivo CSV para pr
 - Streamlit
 - Scikit-learn
 - Joblib
+- plotly
 
