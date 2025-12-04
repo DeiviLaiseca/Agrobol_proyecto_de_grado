@@ -4,26 +4,20 @@ import numpy as np
 import joblib
 import plotly.graph_objects as go
 
-# ============================
 # PALETA AGROBOL
-# ============================
 VERDE_OSCURO = "#1F3D2E"
 VERDE_MEDIO = "#3E7D5F"
 VERDE_CLARO = "#77EBAB"
 VERDE_PASTEL = "#BEFFDD"
 
-# ============================
 # CONFIGURACIÓN DE LA PÁGINA
-# ============================
 st.set_page_config(
     page_title="Predicción OEE – Agrobol",
     page_icon="🌿",
     layout="wide"
 )
 
-# ==========================
 # ESTILOS PARA EL SIDEBAR
-# ==========================
 sidebar_style = """
 <style>
 [data-testid="stSidebar"] {
@@ -65,19 +59,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ============================
 # CARGAR MODELO
-# ============================
 model = joblib.load("modelo_predictivo_gradient_boosting.pkl")
 
-# ============================
 # LOGO
-# ============================
 st.image("logo_agrobol.png", width=400)
 
-# ============================
 # TÍTULO
-# ============================
 st.markdown(f"<h1 style='font-size:36px;' >Modelo Predictivo de OEE – Agrobol</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
@@ -105,9 +93,7 @@ column_order = [
  'Referencia_LE','Operario_LE'
 ]
 
-# ============================
 # SIDEBAR DASHBOARD
-# ============================
 st.sidebar.markdown(f"<h2>Dashboard Modelo Predictivo</h2>", unsafe_allow_html=True)
 st.sidebar.info("Ingrese los valores en la interfaz principal para obtener el OEE predictivo.")
 
@@ -117,16 +103,12 @@ st.sidebar.write("---")
 st.sidebar.markdown("<p style='font-size:10px; font-weight:bold;'>By:</p>", unsafe_allow_html=True)
 st.sidebar.markdown("<p style='font-size:8px;'>Deivi Laiseca, juan Franco y Nathaly Patiño</p>", unsafe_allow_html=True)
 
-# ============================
 #  BLOQUES DE VARIABLES
-# ============================
 st.markdown("## Ingreso de Variables")
 
 col1, col2, col3 = st.columns(3)
 
-# ======================================================
 # BLOQUE 1 — TURNOS (selección múltiple)
-# ======================================================
 with col1:
     st.markdown("### Turnos")
     turnos = st.multiselect(
@@ -146,9 +128,7 @@ with col1:
         turno_values["Turno_Dia"] = 1
 
 
-# ======================================================
 # BLOQUE 2 — LÍNEA DE PRODUCTO (SOLO 1 OPCIÓN)
-# ======================================================
 with col2:
     st.markdown("### Línea de Producto")
     linea_sel = st.radio(
@@ -161,9 +141,7 @@ with col2:
         "Linea producto_P/B": 1 if linea_sel == "P/B" else 0,
     }
 
-# ======================================================
 # BLOQUE 3 — DISEÑO PERFORADO (SOLO 1)
-# ======================================================
 with col3:
     st.markdown("### Diseño Perforado")
     dis = st.radio(
@@ -180,9 +158,7 @@ with col3:
         'Diseño perforado_Zigzag 75': 1 if dis=="Z75" else 0,
     }
 
-# ======================================================
 # BLOQUE 4 — MÁQUINAS (SOLO UNA)
-# ======================================================
 st.markdown("### Selección de Máquina (solo una)")
 maquina = st.radio(
     "Seleccione la máquina utilizada:",
@@ -207,9 +183,7 @@ maquina_map = {
     'Maquina_Cortadora 3': maquina=="Cortadora 3 (alt)",
 }
 
-# ======================================================
 # BLOQUE 5 — VARIABLES NUMÉRICAS
-# ======================================================
 st.markdown("### Variables Numéricas")
 
 num_cols1, num_cols2, num_cols3 = st.columns(3)
@@ -234,20 +208,14 @@ for col in numericas:
         num_inputs[col] = st.number_input(col, value=0.0)
     idx += 1
 
-# ======================================================
 # BLOQUE 6 — VALOR COP
-# ======================================================
 valor_cop = st.number_input("VALOR MOD NO UTILIZADO POR INEFICIENCIA (COP $)", value=0.0)
 
-# ======================================================
 # BLOQUE 7 — VARIABLES BINARIAS
-# ======================================================
 ref = st.radio("Referencia_LE", [0, 1])
 oper = st.radio("Operario_LE", [0, 1])
 
-# ======================================================
 # BOTÓN DE PREDICCIÓN (con medidor y clasificación)
-# ======================================================
 if st.button("Calcular OEE"):
     row = {}
 
@@ -271,9 +239,7 @@ if st.button("Calcular OEE"):
     pred = float(model.predict(df)[0])
     porcentaje = pred * 100
 
-    # =======================
     # CLASIFICACIÓN DEL OEE
-    # =======================
     if porcentaje < 60:
         categoria = "Regular"
         color_cat = "#ff6b6b"      # rojo suave
@@ -284,9 +250,7 @@ if st.button("Calcular OEE"):
         categoria = "Bueno"
         color_cat = "#5EBD8F"      # verde Agrobol bueno
 
-    # =======================
     # GAUGE (medidor)
-    # =======================
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=porcentaje,
@@ -303,9 +267,7 @@ if st.button("Calcular OEE"):
     ))
     fig.update_layout(height=320)
 
-    # =======================
     # MOSTRAR RESULTADOS
-    # =======================
     st.markdown("### Resultado de Predicción")
     st.plotly_chart(fig, use_container_width=True)
 
