@@ -112,8 +112,7 @@ st.sidebar.markdown(f"<h2>Dashboard Modelo Predictivo</h2>", unsafe_allow_html=T
 st.sidebar.info("Ingrese los valores en la interfaz principal para obtener el OEE predictivo.")
 
 st.sidebar.write("---")
-st.sidebar.write("Agrobol S.A.")
-st.sidebar.write("Proyecto de Grado")
+st.sidebar.markdown("<p style='font-size:12px; font-weight:bold;'>Agrobol S.A. - Proyecto de grado</p>", unsafe_allow_html=True)
 st.sidebar.write("---")
 st.sidebar.markdown("<p style='font-size:10px; font-weight:bold;'>By:</p>", unsafe_allow_html=True)
 st.sidebar.markdown("<p style='font-size:8px;'>Deivi Laiseca, juan Franco y Nathaly Patiño</p>", unsafe_allow_html=True)
