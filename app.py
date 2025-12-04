@@ -38,10 +38,10 @@ st.markdown(
             width: 100%;
         }}
         .card {{
-            background-color: #BEFFDD;
+            background-color: #F9FAF9;
             padding: 18px;
             border-radius: 12px;
-            border: 1px solid #d9d9d9;
+            border: 1px solid #BEFFDD;
             margin-bottom: 10px;
         }}
     </style>
