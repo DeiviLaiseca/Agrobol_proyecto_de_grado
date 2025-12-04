@@ -224,7 +224,7 @@ ref = st.radio("Referencia_LE", [0, 1])
 oper = st.radio("Operario_LE", [0, 1])
 
 # ======================================================
-# BOTÓN DE PREDICCIÓN
+# BOTÓN DE PREDICCIÓN (con medidor y clasificación)
 # ======================================================
 if st.button("Calcular OEE"):
     row = {}
@@ -242,16 +242,62 @@ if st.button("Calcular OEE"):
 
     # Asegurar que todas las columnas existan (incluso si faltan)
     for col in column_order:
-        if col not in row:
-            row[col] = 0
+        row.setdefault(col, 0)
 
     df = pd.DataFrame([row])[column_order]
 
     pred = float(model.predict(df)[0])
     porcentaje = pred * 100
 
-    st.markdown("## Resultado de Predicción")
-    st.success(f"OEE Predicho: **{porcentaje:.2f}%**")
+    # =======================
+    # CLASIFICACIÓN DEL OEE
+    # =======================
+    if porcentaje < 60:
+        categoria = "Regular"
+        color_cat = "#ff6b6b"      # rojo suave
+    elif porcentaje < 85:
+        categoria = "Aceptable"
+        color_cat = "#FFD54F"      # amarillo/mostaza claro
+    else:
+        categoria = "Bueno"
+        color_cat = "#5EBD8F"      # verde Agrobol bueno
+
+    # =======================
+    # GAUGE (medidor)
+    # =======================
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=porcentaje,
+        number={'suffix': "%", 'font': {'color': VERDE_OSCURO}},
+        gauge={
+            'axis': {'range': [0, 100]},
+            'bar': {'color': color_cat},
+            'steps': [
+                {'range': [0, 60], 'color': "#ffe6e6"},   # regular
+                {'range': [60, 85], 'color': VERDE_CLARO}, # aceptable
+                {'range': [85, 100], 'color': VERDE_PASTEL}, # bueno
+            ]
+        }
+    ))
+    fig.update_layout(height=320)
+
+    # =======================
+    # MOSTRAR RESULTADOS
+    # =======================
+    st.markdown("### Resultado de Predicción")
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown(
+        f"""
+        <div style='padding: 15px; border-radius: 10px; text-align:center;
+                    font-size:22px; font-weight:700; color:{VERDE_OSCURO};
+                    background-color:{color_cat}; opacity:0.85;'>
+            OEE Predicho: {porcentaje:.2f}% — {categoria}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 
 
