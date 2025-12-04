@@ -111,6 +111,9 @@ column_order = [
 st.sidebar.markdown(f"<h2>Dashboard</h2>", unsafe_allow_html=True)
 st.sidebar.info("Ingrese los valores en la interfaz principal para obtener el OEE predictivo.")
 
+st.sidebar.write("---")
+st.sidebar.write("**Agrobol S.A. – Proyecto de Grado**")
+
 # ============================
 #  BLOQUES DE VARIABLES
 # ============================
