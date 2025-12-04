@@ -19,6 +19,18 @@ COLOR_ACENTO = "#5EBD8F"
 COLOR_FONDO_SUAVE = "#F6FFF9"   # Blanco con matiz verde
 COLOR_CARD = "#FFFFFF"
 
+# HEADER CON LOGO
+col1, col2 = st.columns([7, 1])
+with col1:
+    st.markdown(
+        f"<h1 style='color:{colors[0]};'>Modelo Predictivo OEE – Agrobol</h1>",
+        unsafe_allow_html=True
+    )
+with col2:
+    st.image("logo_agrobol.png", width=5000)
+
+st.markdown("---")
+
 # ============================
 # CSS PERSONALIZADO
 # ============================
