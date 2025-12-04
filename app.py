@@ -108,7 +108,7 @@ column_order = [
 # ============================
 # SIDEBAR DASHBOARD
 # ============================
-st.sidebar.markdown(f"<h2>Dashboard</h2>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<h2>Dashboard Modelo Predictivo</h2>", unsafe_allow_html=True)
 st.sidebar.info("Ingrese los valores en la interfaz principal para obtener el OEE predictivo.")
 
 st.sidebar.write("---")
@@ -117,8 +117,6 @@ st.sidebar.write("Proyecto de Grado")
 st.sidebar.write("---")
 st.sidebar.markdown("<p style='font-size:10px; font-weight:bold;'>By:</p>", unsafe_allow_html=True)
 st.sidebar.markdown("<p style='font-size:8px;'>Deivi Laiseca, juan Franco y Nathaly Patiño</p>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='font-size:6px;'>Juan Franco</p>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='font-size:6px;'>Nathaly Patiño</p>", unsafe_allow_html=True)
 
 # ============================
 #  BLOQUES DE VARIABLES
