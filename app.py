@@ -116,7 +116,7 @@ st.sidebar.write("Agrobol S.A.")
 st.sidebar.write("Proyecto de Grado")
 st.sidebar.write("---")
 st.sidebar.markdown("<p style='font-size:10px; font-weight:bold;'>By:</p>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='font-size:6px;'>Deivi Laiseca</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-size:8px;'>Deivi Laiseca, juan Franco y Nathaly Patiño</p>", unsafe_allow_html=True)
 st.sidebar.markdown("<p style='font-size:6px;'>Juan Franco</p>", unsafe_allow_html=True)
 st.sidebar.markdown("<p style='font-size:6px;'>Nathaly Patiño</p>", unsafe_allow_html=True)
 
