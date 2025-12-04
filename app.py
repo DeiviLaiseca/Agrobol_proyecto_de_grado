@@ -115,10 +115,10 @@ st.sidebar.write("---")
 st.sidebar.write("Agrobol S.A.")
 st.sidebar.write("Proyecto de Grado")
 st.sidebar.write("---")
-st.sidebar.write("By")
-st.sidebar.write("Deivi Laiseca")
-st.sidebar.write("Juan Franco")
-st.sidebar.write("Nathaly Patiño")
+st.sidebar.markdown("<p style='font-size:18px; font-weight:bold;'>By</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-size:16px;'>Deivi Laiseca</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-size:16px;'>Juan Franco</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-size:16px;'>Nathaly Patiño</p>", unsafe_allow_html=True)
 
 # ============================
 #  BLOQUES DE VARIABLES
