@@ -1,10 +1,11 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
 
-# CONFIGURACIÓN DE LA APP
+# ============================
+# CONFIGURACIÓN GENERAL
+# ============================
 st.set_page_config(
     page_title="Predicción OEE – Agrobol",
     page_icon="🌿",
@@ -12,42 +13,77 @@ st.set_page_config(
 )
 
 # Paleta Agrobol
-colors = ["#1F3D2E", "#3E7D5F", "#5EBD8F", "#77EBAB", "#BEFFDD"]
+COLOR_PRINCIPAL = "#1F3D2E"
+COLOR_SECUNDARIO = "#3E7D5F"
+COLOR_ACENTO = "#5EBD8F"
+COLOR_FONDO_SUAVE = "#F6FFF9"   # Blanco con matiz verde
+COLOR_CARD = "#FFFFFF"
 
-# Fondo verde claro
-page_bg = f'''
+# ============================
+# CSS PERSONALIZADO
+# ============================
+custom_css = f"""
 <style>
+
+body {{
+    background-color: {COLOR_FONDO_SUAVE};
+}}
+
 [data-testid="stAppViewContainer"] {{
-    background-color: {colors[4]};
+    background-color: {COLOR_FONDO_SUAVE};
 }}
+
 [data-testid="stSidebar"] {{
-    background-color: {colors[3]};
+    background-color: {COLOR_PRINCIPAL};
 }}
+
+h1, h2, h3 {{
+    color: {COLOR_PRINCIPAL};
+    font-weight: 700;
+    font-family: 'Arial', sans-serif;
+}}
+
+.card {{
+    background: {COLOR_CARD};
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}}
+
 .header-container {{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 5px 0px 20px 0px;
 }}
+
 </style>
-'''
-st.markdown(page_bg, unsafe_allow_html=True)
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
 
-# HEADER CON LOGO
-col1, col2 = st.columns([7, 1])
-with col1:
-    st.markdown(
-        f"<h1 style='color:{colors[0]};'>Modelo Predictivo OEE – Agrobol</h1>",
-        unsafe_allow_html=True
-    )
-with col2:
-    st.image("logo_agrobol.png", width=5000)
+# ============================
+# ENCABEZADO CON LOGO
+# ============================
+st.markdown(
+    """
+    <div class="header-container">
+        <h1>Modelo Predictivo OEE – Agrobol</h1>
+        <img src="logo_agrobol.png" width="110">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-st.markdown("---")
+st.markdown("<hr>", unsafe_allow_html=True)
 
+# ============================
 # CARGAR MODELO
+# ============================
 model = joblib.load("modelo_predictivo_gradient_boosting.pkl")
 
-# ORDEN DE COLUMNAS FINAL
+# ORDEN DE COLUMNAS
 column_order = [
  'Diseño perforado_Lineal 45','Diseño perforado_Sin diseño',
  'Diseño perforado_Zigzag 20','Diseño perforado_Zigzag 35',
@@ -70,16 +106,25 @@ column_order = [
  'Referencia_LE','Operario_LE'
 ]
 
+# ============================
 # OPCIÓN DEL USUARIO
+# ============================
+st.markdown("<div class='card'>", unsafe_allow_html=True)
 modo = st.radio(
     "Seleccione el modo de ingreso de datos:",
-    ("Cargar archivo Excel/CSV", "Ingresar datos manualmente"),
-    index=0
+    ("Cargar archivo Excel/CSV", "Ingresar datos manualmente")
 )
+st.markdown("</div>", unsafe_allow_html=True)
 
-# 1 MODO ARCHIVO
+
+# ============================
+# MODO ARCHIVO
+# ============================
 if modo == "Cargar archivo Excel/CSV":
+
+    st.markdown("<div class='card'>", unsafe_allow_html=True)
     archivo = st.file_uploader("Sube el archivo:", type=["csv", "xlsx"])
+    st.markdown("</div>", unsafe_allow_html=True)
 
     if archivo:
         try:
@@ -88,42 +133,57 @@ if modo == "Cargar archivo Excel/CSV":
             else:
                 df = pd.read_excel(archivo)
 
+            st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.success("Archivo cargado correctamente.")
             st.dataframe(df.head())
+            st.markdown("</div>", unsafe_allow_html=True)
 
             # Reordenar columnas
             df = df[column_order]
 
-            # Predicción
             pred = model.predict(df)
             df["OEE_Predicho"] = pred
 
-            st.subheader("Resultados")
+            st.markdown("<div class='card'>", unsafe_allow_html=True)
+            st.subheader("Resultados de Predicción")
             st.dataframe(df)
-
             st.download_button(
                 "Descargar resultados",
                 df.to_csv(index=False).encode("utf-8"),
                 "predicciones_oee.csv",
                 "text/csv"
             )
+            st.markdown("</div>", unsafe_allow_html=True)
 
         except Exception as e:
             st.error(f"Error procesando el archivo: {e}")
 
-# 2 MODO MANUAL
+# ============================
+# MODO MANUAL
+# ============================
 else:
-    st.subheader("Ingrese los valores manualmente")
+    st.subheader("Ingreso Manual de Datos")
+
+    st.markdown("<div class='card'>", unsafe_allow_html=True)
 
     entradas = {}
     for col in column_order:
-        if "(cm)" in col or "(Kg)" in col or "Min" in col or "(" in col or "$" in col:
+
+        # Variables numéricas
+        if any(x in col for x in ["cm", "Kg", "Min", "$", "Capas", "Velocidad"]):
             entradas[col] = st.number_input(col, value=0.0)
+
+        # Variables binarias
         else:
             entradas[col] = st.selectbox(col, [0, 1], index=0)
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
     if st.button("Predecir OEE"):
         fila = pd.DataFrame([entradas])[column_order]
         pred = model.predict(fila)[0]
 
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.success(f"OEE Predicho: **{pred:.4f}**")
+        st.markdown("</div>", unsafe_allow_html=True)
+
