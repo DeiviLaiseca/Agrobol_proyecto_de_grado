@@ -17,8 +17,24 @@ VERDE_PASTEL = "#BEFFDD"
 # ============================
 st.set_page_config(
     page_title="Predicción OEE – Agrobol",
+    page_icon="🌿",
     layout="wide"
 )
+
+# ==========================
+# ESTILOS PARA EL SIDEBAR
+# ==========================
+sidebar_style = """
+<style>
+[data-testid="stSidebar"] {
+    background-color: #3E7D5F; /* Verde Agrobol */
+}
+[data-testid="stSidebar"] * {
+    color: white !important;   /* Letra blanca dentro del sidebar */
+}
+</style>
+"""
+st.markdown(sidebar_style, unsafe_allow_html=True)
 
 st.markdown(
     f"""
