@@ -109,15 +109,20 @@ with col1:
     st.markdown("### Turnos")
     turnos = st.multiselect(
         "Seleccione uno o más turnos:",
-        ["Turno_Dia", "Turno_Tarde", "Turno_Noche"]
+        ["Turno_Dia", "Turno_Tarde", "Turno_Noche"],
+        default=["Turno_Dia"]
     )
 
     turno_values = {
+        "Turno_Dia": 1 if "Turno_Dia" in turnos and len(turnos) == 1 else 0,
         "Turno_Tarde": 1 if "Turno_Tarde" in turnos else 0,
-        "Turno_Noche": 1 if "Turno_Noche" in turnos else 0,
-        # Si no se elige Tarde ni Noche, asumimos Día como 1
-        "Turno_Dia": 1 if (("Turno_Dia" in turnos) or (len(turnos) == 0)) else 0
+        "Turno_Noche": 1 if "Turno_Noche" in turnos else 0
     }
+
+    # Si el usuario no selecciona nada, activar Turno_Dia
+    if sum(turno_values.values()) == 0:
+        turno_values["Turno_Dia"] = 1
+
 
 # ======================================================
 # BLOQUE 2 — LÍNEA DE PRODUCTO (SOLO 1 OPCIÓN)
@@ -235,29 +240,18 @@ if st.button("Calcular OEE"):
     row['Referencia_LE'] = ref
     row['Operario_LE'] = oper
 
+    # Asegurar que todas las columnas existan (incluso si faltan)
+    for col in column_order:
+        if col not in row:
+            row[col] = 0
+
     df = pd.DataFrame([row])[column_order]
 
     pred = float(model.predict(df)[0])
     porcentaje = pred * 100
 
-    # =======================
-    # TARJETA CON EL RESULTADO
-    # =======================
-    st.markdown(
-        f"""
-        <div style="
-            padding: 20px; 
-            border-radius: 12px; 
-            background-color: #E9FDF3; 
-            border: 2px solid {VERDE_OSCURO};
-            text-align: center;
-        ">
-            <h2 style="color:{VERDE_OSCURO}; margin-bottom:5px;">Resultado de Predicción</h2>
-            <h1 style="color:{VERDE_OSCURO}; font-size:48px; font-weight:bold;">
-                {porcentaje:.2f}% OEE
-            </h1>
-        </div>
-        """, unsafe_allow_html=True
-    )
+    st.markdown("## Resultado de Predicción")
+    st.success(f"OEE Predicho: **{porcentaje:.2f}%**")
+
 
 
