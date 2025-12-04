@@ -100,8 +100,8 @@ st.sidebar.info("Ingrese los valores en la interfaz principal para obtener el OE
 st.sidebar.write("---")
 st.sidebar.markdown("<p style='font-size:12px;'>Agrobol S.A. - Proyecto de grado - EAM</p>", unsafe_allow_html=True)
 st.sidebar.write("---")
-st.sidebar.markdown("<p style='font-size:10px; font-weight:bold;'>By:</p>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='font-size:8px;'>Deivi Laiseca, juan Franco y Nathaly Patiño</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-size:10px; font-weight:bold;'>Realizado por:</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-size:8px;'>Deivi Laiseca, Juan Franco y Nathaly Patiño</p>", unsafe_allow_html=True)
 
 #  BLOQUES DE VARIABLES
 st.markdown("## Ingreso de Variables")
