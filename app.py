@@ -241,25 +241,23 @@ if st.button("Calcular OEE"):
     porcentaje = pred * 100
 
     # =======================
-    # GAUGE (medidor)
+    # TARJETA CON EL RESULTADO
     # =======================
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number",
-        value=porcentaje,
-        number={'suffix': "%", 'font': {'color': VERDE_OSCURO}},
-        gauge={
-            'axis': {'range': [0, 100]},
-            'bar': {'color': VERDE_MEDIO},
-            'steps': [
-                {'range': [0, 60], 'color': "#ffe6e6"},
-                {'range': [60, 85], 'color': VERDE_CLARO},
-                {'range': [85, 100], 'color': VERDE_PASTEL},
-            ]
-        }
-    ))
-    fig.update_layout(height=350)
+    st.markdown(
+        f"""
+        <div style="
+            padding: 20px; 
+            border-radius: 12px; 
+            background-color: #E9FDF3; 
+            border: 2px solid {VERDE_OSCURO};
+            text-align: center;
+        ">
+            <h2 style="color:{VERDE_OSCURO}; margin-bottom:5px;">Resultado de Predicción</h2>
+            <h1 style="color:{VERDE_OSCURO}; font-size:48px; font-weight:bold;">
+                {porcentaje:.2f}% OEE
+            </h1>
+        </div>
+        """, unsafe_allow_html=True
+    )
 
-    st.markdown("## Resultado de Predicción")
-    st.plotly_chart(fig, use_container_width=True)
-    st.success(f"OEE Predicho: **{porcentaje:.2f}%**")
 
