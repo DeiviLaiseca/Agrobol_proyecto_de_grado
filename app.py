@@ -109,11 +109,14 @@ with col1:
     st.markdown("### Turnos")
     turnos = st.multiselect(
         "Seleccione uno o más turnos:",
-        ["Turno_Tarde", "Turno_Noche"]
+        ["Turno_Dia", "Turno_Tarde", "Turno_Noche"]
     )
+
     turno_values = {
         "Turno_Tarde": 1 if "Turno_Tarde" in turnos else 0,
-        "Turno_Noche": 1 if "Turno_Noche" in turnos else 0
+        "Turno_Noche": 1 if "Turno_Noche" in turnos else 0,
+        # Si no se elige Tarde ni Noche, asumimos Día como 1
+        "Turno_Dia": 1 if (("Turno_Dia" in turnos) or (len(turnos) == 0)) else 0
     }
 
 # ======================================================
